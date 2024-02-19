@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import cookie from "js-cookie";
 import { useRouter } from "next/router";
 import styles from "../Header/styles.module.css";
+import Link from "next/link";
 
 const Header = () => {
   const router = useRouter();
@@ -26,8 +27,14 @@ const Header = () => {
   return (
     <div className={styles.wrapper}>
       <div>Logo</div>
-
-      {isLogin && <button onClick={logout}>logout</button>}
+      <div>
+        {isLogin && (
+          <div>
+            <button onClick={logout}>logout</button>
+            <Link href={"/myQuestions"}>My questions</Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

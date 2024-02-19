@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Header from "../components/Header/Header";
 import Card from "../components/Card/Card";
+import Link from "next/link";
 
 const Home = () => {
   const router = useRouter();
@@ -42,12 +43,19 @@ const Home = () => {
   return (
     <>
       <Header />
+
+      <Link href={"/askQuestion"}>
+        <h2>Ask question</h2>
+      </Link>
       {questions.map((question) => (
         <Card
           key={question._id}
+          _id={question._id}
           question_title={question.question_title}
           question_text={question.question_text}
           date={question.date}
+          is_liked={question.is_like}
+          is_disliked={question.is_dislike}
         />
       ))}
     </>
