@@ -4,17 +4,17 @@ import { useRouter } from "next/router";
 import styles from "../askQuestion/styles.module.css";
 import cookie from "js-cookie";
 import axios from "axios";
+import Footer from "../../components/Footer/Footer";
 
 const AskQuestion = () => {
   const router = useRouter();
 
   const [questionTitle, setQuestionTitle] = useState("");
   const [questionText, setQuestionText] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const askQuestion = async () => {
     if (!questionTitle || !questionText) {
-      setErrorMessage("Please fill all requeared fields");
+      alert("Please fill all required fields");
       return;
     }
 
@@ -53,10 +53,11 @@ const AskQuestion = () => {
   };
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Header />
+
       <div className={styles.form}>
-        <h2>Ask question</h2>
+        <h1>Your Question</h1>
         <input
           type="text"
           placeholder="Question Title"
@@ -65,7 +66,7 @@ const AskQuestion = () => {
             setQuestionTitle(event.target.value);
           }}
         />
-        <input
+        <textarea
           type="text"
           placeholder="Question Text"
           value={questionText}
@@ -73,9 +74,10 @@ const AskQuestion = () => {
             setQuestionText(event.target.value);
           }}
         />
-
         <button onClick={askQuestion}>Post</button>
       </div>
+
+      <Footer />
     </div>
   );
 };

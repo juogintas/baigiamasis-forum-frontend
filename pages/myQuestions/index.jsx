@@ -1,14 +1,14 @@
 // pages/MyQuestions/MyQuestions.js
 import React, { useEffect, useState } from "react";
 import cookie from "js-cookie";
-import { useRouter } from "next/router";
 import axios from "axios";
 import Header from "../../components/Header/Header";
 import Card from "../../components/Card/Card";
 import Link from "next/link";
+import styles from "../myQuestions/styles.module.css";
+import Footer from "../../components/Footer/Footer";
 
 const MyQuestions = () => {
-  const router = useRouter();
   const [questions, setQuestions] = useState([]);
 
   const fetchQuestions = async () => {
@@ -50,21 +50,26 @@ const MyQuestions = () => {
   }, []);
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <Header />
-      <Link href={"/askQuestion"}>Ask question</Link>
+      <div className={styles.titleContainer}>
+        <h2 className={styles.title}>My questions</h2>
+      </div>
       {questions.map((question) => (
         <Card
           key={question._id}
           _id={question._id}
           question_title={question.question_title}
           question_text={question.question_text}
+          is_like={question.is_like}
+          is_dislike={question.is_dislike}
           date={question.date}
           onDelete={deleteQuestion}
           showDeleteButton={true}
         />
       ))}
-    </>
+      <Footer />
+    </div>
   );
 };
 

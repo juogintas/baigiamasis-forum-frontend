@@ -3,6 +3,7 @@ import axios from "axios";
 import cookie from "js-cookie";
 import styles from "../login/styles.module.css";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import { useRouter } from "next/router";
 
 const Login = () => {
@@ -40,10 +41,10 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Header />
       <div className={styles.form}>
-        <h1>Welcome to Website</h1>
+        <h1>Sign up</h1>
         <input
           type="text"
           placeholder="username"
@@ -68,11 +69,12 @@ const Login = () => {
             setPassword(event.target.value);
           }}
         />
-        <button onClick={onClickButton}>Sign up</button>
         <div className={styles.signUp}>
           <a href="/login">Log in </a>
         </div>
+        <button onClick={onClickButton}>Sign up</button>
       </div>
+      <Footer />
     </div>
   );
 };

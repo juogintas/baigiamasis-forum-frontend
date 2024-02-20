@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  background-color: rgba(255, 68, 0, 0.62);
+}
+
+.wrapper p {
+  color: white;
+  margin: auto;
+}

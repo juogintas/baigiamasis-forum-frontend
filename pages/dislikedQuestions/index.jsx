@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from "react";
 import cookie from "js-cookie";
-import { useRouter } from "next/router";
 import axios from "axios";
-import styles from "../styles/Home.module.css";
-import Header from "../components/Header/Header";
-import Card from "../components/Card/Card";
-import Footer from "../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import Card from "../../components/Card/Card";
+import Link from "next/link";
+import styles from "../dislikedQuestions/styles.module.css";
+import Footer from "../../components/Footer/Footer";
 
-const Home = () => {
-  const router = useRouter();
-
+const MyQuestions = () => {
   const [questions, setQuestions] = useState([]);
-
-  const checkUserToken = () => {
-    const token = cookie.get("jwt_token");
-
-    if (!token) {
-      router.push("/login");
-    }
-  };
 
   const fetchQuestions = async () => {
     const headers = {
@@ -26,18 +16,23 @@ const Home = () => {
     };
 
     try {
-      const response = await axios.get("http://localhost:3001/questions", {
-        headers: headers,
-      });
-
-      setQuestions(response.data.questions);
+      const response = await axios.get(
+        "http://localhost:3001/questions/userId",
+        {
+          headers: headers,
+        }
+      );
+      // Filter to include only questions where is_like is true
+      const likedQuestions = response.data.questions.filter(
+        (question) => question.is_dislike
+      );
+      setQuestions(likedQuestions);
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    checkUserToken();
     fetchQuestions();
   }, []);
 
@@ -45,18 +40,19 @@ const Home = () => {
     <div className={styles.wrapper}>
       <Header />
       <div className={styles.titleContainer}>
-        <h2 className={styles.title}>Home</h2>
+        <h2 className={styles.title}>Disliked Questions</h2>
       </div>
-
       {questions.map((question) => (
         <Card
           key={question._id}
           _id={question._id}
           question_title={question.question_title}
           question_text={question.question_text}
-          date={question.date}
           is_like={question.is_like}
           is_dislike={question.is_dislike}
+          date={question.date}
+          onDelete={() => deleteQuestion(question._id)}
+          showDeleteButton={true}
         />
       ))}
       <Footer />
@@ -64,4 +60,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MyQuestions;
